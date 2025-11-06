@@ -1,0 +1,3 @@
+<div class="container">
+    <canvas ref="canvas1"  style="background-color:white;width:454px; height:454px;" ontouchstart="onCanvasTouch"></canvas>
+</div>
