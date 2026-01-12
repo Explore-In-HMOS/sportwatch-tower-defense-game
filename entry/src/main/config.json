@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.hmosdemos.tdgame",
+    "bundleName": "com.hmosdemos.lite_wearable.tdgame",
     "vendor": "hmosdemos",
     "version": {
       "code": 1000000,

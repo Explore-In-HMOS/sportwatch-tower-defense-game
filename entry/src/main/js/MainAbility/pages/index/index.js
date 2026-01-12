@@ -17,9 +17,9 @@ export default {
         enemyTimer: null,
         lastUpdate: 0,
         levelUpButtons: [
-            { text: 'Attack Speed +', action: 'increaseAttackSpeed' },
-            { text: 'Damage +', action: 'increaseDamage' },
-            { text: 'HP +', action: 'increaseHp' }
+          { text: `Attack Speed +`, action: 'increaseAttackSpeed' },
+          { text: `Damage +`, action: 'increaseDamage' },
+          { text: `HP +`, action: 'increaseHp' }
         ]
     },
 
@@ -53,10 +53,14 @@ export default {
     },
 
     spawnLoop() {
-        if (this.enemyTimer) clearTimeout(this.enemyTimer)
+        if (this.enemyTimer) {
+            clearTimeout(this.enemyTimer)
+        }
 
         const spawnEnemy = () => {
-            if (!this.gameRunning) return
+            if (!this.gameRunning) {
+                return
+            }
 
             const radius = this.canvasW / 2 - 20
             const angle = Math.random() * Math.PI * 2
@@ -77,15 +81,21 @@ export default {
     },
 
     shootLoop() {
-        if (this.attackTimer) clearInterval(this.attackTimer)
+        if (this.attackTimer){
+            clearInterval(this.attackTimer)
+        } 
         this.attackTimer = setInterval(() => {
-            if (this.gameRunning) this.shoot()
+            if (this.gameRunning){
+            this.shoot()
+            } 
         }, this.attackSpeed)
     },
 
 
     findClosestEnemy() {
-        if (this.enemies.length === 0) return null
+        if (this.enemies.length === 0) {
+            return null
+        }
         return this.enemies.reduce((a, b) => {
             const da = Math.hypot(a.x - this.tower.x, a.y - this.tower.y)
             const db = Math.hypot(b.x - this.tower.x, b.y - this.tower.y)
@@ -95,7 +105,9 @@ export default {
 
     shoot() {
         const target = this.findClosestEnemy()
-        if (!target) return
+        if (!target) {
+            return
+        }
         this.bullets.push({ x: this.tower.x, y: this.tower.y, target })
     },
 
@@ -114,7 +126,9 @@ export default {
             if (dist < 20) {
                 this.playerHp -= e.damage
                 this.enemies.splice(i, 1)
-                if (this.playerHp <= 0) this.gameOver()
+                if (this.playerHp <= 0){
+                this.gameOver()
+                } 
             }
         }
     }
@@ -124,8 +138,9 @@ export default {
         for (let i = this.bullets.length - 1; i >= 0; i--) {
             const b = this.bullets[i]
             const t = b.target
-            if (!t) { this.bullets.splice(i, 1); continue }
-
+            if (!t) {
+                 this.bullets.splice(i, 1); continue 
+                }
             const dx = t.x - b.x
             const dy = t.y - b.y
             const dist = Math.hypot(dx, dy) || 1
@@ -138,9 +153,13 @@ export default {
                     if (t.hp <= 0 && !t.dead) {
                         t.dead = true
                         const idx = this.enemies.indexOf(t)
-                        if (idx !== -1) this.enemies.splice(idx, 1)
+                        if (idx !== -1){
+                            this.enemies.splice(idx, 1)
+                        } 
                         this.score++
-                        if (this.score % 5 === 0) this.levelUpMenu()
+                        if (this.score % 5 === 0){
+                            this.levelUpMenu()
+                        } 
                     }
                 }
                 this.bullets.splice(i, 1)
@@ -193,7 +212,9 @@ export default {
 
     drawGame() {
         const el = this.$refs.canvas1
-        if (!el) return
+        if (!el) {
+            return
+        }
         const ctx = el.getContext('2d')
 
         ctx.fillStyle = '#ffffff'
@@ -279,8 +300,9 @@ export default {
 
 
     gameLoop() {
-        if (!this.gameRunning) return
-
+        if (!this.gameRunning) {
+            return
+        }
         const now = Date.now()
         const delta = (now - this.lastUpdate) / 1000
         this.lastUpdate = now
